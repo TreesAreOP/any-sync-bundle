@@ -20,6 +20,10 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: "1.23.5"
+          
+      - name: Set Actions Allow Unsecure Commands
+        run: |
+          echo "ACTIONS_ALLOW_UNSECURE_COMMANDS=true" >> $GITHUB_ENV
 
       - id: read-docker-image-identifiers
         name: Read Docker Image Identifiers
