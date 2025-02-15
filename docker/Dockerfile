@@ -64,8 +64,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
         ca-certificates \
         supervisor \
  # Install MongoDB
- && curl -fsSL https://pgp.mongodb.com/server-8.0.asc | gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor \
- && echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] http://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/8.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-8.0.list \
+ && curl -fsSL https://pgp.mongodb.com/server-4.4.8.asc | gpg -o /usr/share/keyrings/mongodb-server-4.4.8.gpg --dearmor \
+ && echo "deb [ signed-by=/usr/share/keyrings/mongodb-server-4.4.8.gpg ] http://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/4.4.8 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.8.list \
  && apt-get update \
  && apt-get install -y --no-install-recommends mongodb-org-server \
  # Remove unnecessary packages
@@ -76,8 +76,8 @@ RUN DEBIAN_FRONTEND=noninteractive \
     /var/lib/apt/lists/* \
     /tmp/* \
     /var/tmp/* \
-    /usr/share/keyrings/mongodb-server-8.0.gpg \
-    /etc/apt/sources.list.d/mongodb-org-8.0.list
+    /usr/share/keyrings/mongodb-server-4.4.8.gpg \
+    /etc/apt/sources.list.d/mongodb-org-4.4.8.list
 
 COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --from=stage-bin /bin/any-sync-bundle /usr/local/bin/any-sync-bundle
