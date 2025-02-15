@@ -21,6 +21,10 @@ jobs:
         with:
           go-version: "1.23.5"
 
+      - id: read-docker-image-identifiers
+        name: Read Docker Image Identifiers
+        run: echo ::set-env name=IMAGE_REPOSITORY::$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')
+
       - name: Set up QEMU for cross-compilation of Docker images
         uses: docker/setup-qemu-action@v3
 
@@ -48,7 +52,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: |
-            ghcr.io/${{ github.repository }}
+            ghcr.io/${{ env.IMAGE_REPOSITORY }}
           tags: |
             type=raw,value=${{ fromJSON(steps.goreleaser.outputs.metadata).version }}
             
@@ -63,7 +67,7 @@ jobs:
             linux/amd64
           target: stage-release-minimal
           tags: |
-            ghcr.io/${{ github.repository }}:minimal
+            ghcr.io/${{ env.IMAGE_REPOSITORY }}:minimal
             ${{ steps.meta.outputs.tags }}-minimal
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
@@ -86,7 +90,7 @@ jobs:
             linux/amd64
           target: stage-release
           tags: |
-            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ env.IMAGE_REPOSITORY }}:latest
             ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
